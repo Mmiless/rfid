@@ -4,70 +4,35 @@ import RPi.GPIO as GPIO
 # Initialize the reader
 reader = MFRC522()
 
-try:
-    print("Place the original card near the reader...")
+# List of known/default keys to test (common keys used in MIFARE cards)
+known_keys = [
+    [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF],  # Default key
+    [0xA0, 0xA1, 0xA2, 0xA3, 0xA4, 0xA5],  # Common key A
+    [0xB0, 0xB1, 0xB2, 0xB3, 0xB4, 0xB5],  # Common key B
+    [0xD3, 0xF7, 0xD3, 0xF7, 0xD3, 0xF7],  # Known key
+    [0x00, 0x00, 0x00, 0x00, 0x00, 0x00]   # All zeros
+]
 
-    # Read data from the original card
-    original_data = []
+try:
+    print("Place the card near the reader...")
     while True:
         (status, TagType) = reader.MFRC522_Request(reader.PICC_REQIDL)
-
         if status == reader.MI_OK:
-            print("Original card detected")
-
             (status, uid) = reader.MFRC522_Anticoll()
-
             if status == reader.MI_OK:
-                print(f"Original Card UID: {uid}")
-                key = [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]
-
-                for sector in range(16):  # MIFARE Classic 1K
-                    sector_data = []
-                    for block in range(sector * 4, (sector * 4) + 4):
+                print(f"Card UID: {uid}")
+                for sector in range(16):
+                    block = sector * 4 + 3  # Last block of the sector (sector trailer)
+                    found_key = False
+                    for key in known_keys:
                         status = reader.MFRC522_Auth(reader.PICC_AUTHENT1A, block, key, uid)
                         if status == reader.MI_OK:
-                            data = reader.MFRC522_Read(block)
-                            sector_data.append(data)
-                        else:
-                            sector_data.append(None)  # Block could not be read
-                    original_data.append(sector_data)
-                    reader.MFRC522_StopCrypto1()
-
+                            print(f"Sector {sector} trailer read successfully with key: {key}")
+                            found_key = True
+                            reader.MFRC522_StopCrypto1()
+                            break
+                    if not found_key:
+                        print(f"Failed to read sector {sector} trailer with known keys.")
                 break
-
-    # Print the original card data for verification (optional)
-    for i, sector in enumerate(original_data):
-        for j, block_data in enumerate(sector):
-            if block_data:
-                print(f"Sector {i}, Block {i * 4 + j}: {block_data}")
-
-    input("Place the blank card near the reader and press Enter to write...")
-
-    # Write data to a blank card
-    while True:
-        (status, TagType) = reader.MFRC522_Request(reader.PICC_REQIDL)
-
-        if status == reader.MI_OK:
-            print("Blank card detected")
-
-            (status, uid) = reader.MFRC522_Anticoll()
-
-            if status == reader.MI_OK:
-                print(f"Blank Card UID: {uid}")
-                key = [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]
-
-                for i, sector in enumerate(original_data):
-                    for j, block_data in enumerate(sector):
-                        block = i * 4 + j
-                        if block_data and status == reader.MFRC522_Auth(reader.PICC_AUTHENT1A, block, key, uid):
-                            reader.MFRC522_Write(block, block_data)
-                        else:
-                            print(f"Failed to write to Sector {i}, Block {block}")
-
-                    reader.MFRC522_StopCrypto1()
-
-                print("Data written to the blank card successfully.")
-                break
-
 finally:
     GPIO.cleanup()
