@@ -4,7 +4,7 @@ import mailboxTools
 
 
 
-valid_commands = ['quit', 'q', 'send_mail', 'get_mail', 'search_mail', 'delete_mail']
+valid_commands = ['quit', 'q', 'send_mail', 'get_mail', 'search_mail', 'delete_mail', 'log_in', 'log_out', 'is_logged']
 
 def command_is_valid(command):
     if command in valid_commands:
@@ -24,6 +24,17 @@ def main():
         while not command_is_valid(usr_input):
             usr_input = input('Command: ')
             command = usr_input
+
+        if command == 'log_in':
+            while (1):
+                try:
+                    id = mrfc.read()
+                    mailbox_client.log_in(id)
+                    break
+                except:
+                    continue
+ 
+            
 
         if command == 'send_mail':
             address = input('Destination address: ')

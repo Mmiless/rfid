@@ -20,6 +20,25 @@ class mailboxClient():
         self.serv_pw = serv_password
         self.username = username
 
+
+    def log_in(self, id):
+        idBytes = json.dumps(id).encode()
+        idEnc = cipher.encrypt(idBytes)
+
+        headers = {
+            'Content-Type': 'application/json',
+            'Authorization': None   # not using HTTP secure
+        }
+
+        # Send an HTTP POST message and block until a response is given.
+        # Note: requests is NOT the same thing as the request from the Flask
+        # library.
+        response = requests.post("http://{}/log-in".format(self.serv_addr),
+                                 headers=headers,
+                                 json={'id':idEnc.decode()})
+        pprint(response.json())
+
+
     def send_mail(self, address, subject, body):
         """
         Summary: Sends a POST message to the server to add mail
