@@ -28,8 +28,8 @@ def main():
         if command == 'log_in':
             try:
                 id, other = mrfc.read()
-                mailbox_client.log_in(id)
                 print(id)
+                mailbox_client.log_in(id)
             except:
                 continue
  
