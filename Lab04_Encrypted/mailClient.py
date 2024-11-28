@@ -16,6 +16,7 @@ def command_is_valid(command):
 
 def main():
     mailbox_client = mailboxTools.mailboxClient(args.u, args.a, args.p)
+    mfrc = SimpleMFRC522()
 
     usr_input = ''
     command = ''
@@ -27,7 +28,7 @@ def main():
 
         if command == 'log_in':
             try:
-                id, other = mrfc.read()
+                id, not_id = mfrc.read()
                 print(id)
                 mailbox_client.log_in(id)
             except:
