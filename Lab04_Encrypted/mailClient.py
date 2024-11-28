@@ -26,13 +26,12 @@ def main():
             command = usr_input
 
         if command == 'log_in':
-            while (1):
-                try:
-                    id = mrfc.read()
-                    mailbox_client.log_in(id)
-                    break
-                except:
-                    continue
+            try:
+                id, other = mrfc.read()
+                mailbox_client.log_in(id)
+                print(id)
+            except:
+                continue
  
             
 
