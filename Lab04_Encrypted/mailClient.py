@@ -47,14 +47,15 @@ def main():
         if command == 'add_id':
             address = args.a
 
-            subject = input('Message subject: ')
-            subject = subject if subject != '' else None
-
-            body = input('Message body: ')
-            body = body if body != '' else None
+            while(1):
+                try:
+                    id, not_id = mfrc.read()
+                    break
+                except:
+                    continue
 
             try:
-                mailbox_client.add_id(address, subject)
+                mailbox_client.add_id(address, id)
 
             except Exception as e:
                 print(e)
