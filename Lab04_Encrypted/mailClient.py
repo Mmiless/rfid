@@ -54,7 +54,7 @@ def main():
             body = body if body != '' else None
 
             try:
-                mailbox_client.add_id(address, subject, body)
+                mailbox_client.add_id(address, subject)
 
             except Exception as e:
                 print(e)
