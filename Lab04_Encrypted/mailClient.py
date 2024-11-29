@@ -15,8 +15,16 @@ def command_is_valid(command):
         return False
 
 def main():
-    mailbox_client = mailboxTools.mailboxClient(args.u, args.a, args.p)
     mfrc = SimpleMFRC522()
+    while(1):
+        try:
+            id, not_id = mfrc.read()
+            print(id)
+            break
+        except:
+            continue
+
+    mailbox_client = mailboxTools.mailboxClient(args.u, args.a, id)
 
     usr_input = ''
     command = ''
@@ -26,13 +34,13 @@ def main():
             usr_input = input('Command: ')
             command = usr_input
 
-        if command == 'log_in':
-            try:
-                id, not_id = mfrc.read()
-                print(id)
-                mailbox_client.log_in(id)
-            except:
-                continue
+#        if command == 'log_in':
+#           try:
+#                id, not_id = mfrc.read()
+#                print(id)
+#                mailbox_client.log_in(id)
+#            except:
+#                continue
  
             
 
@@ -96,9 +104,6 @@ if __name__ == '__main__':
 
     parser.add_argument('-a', metavar='ip_addr:port_num', required=True,
             help="Address of the server in the format ip_addr:port_num")
-
-    parser.add_argument('-p', metavar='password', required=True,
-            help="Password to access server")
 
     parser.add_argument('-u', metavar='username', required=True,
             help="Username to go by when sending emails")

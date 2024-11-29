@@ -9,7 +9,8 @@ import mailboxManager
 
 symKey = b'UEbJAk-waFRWtpquNTFR0Z35PQlU6oxLlbG6bnYXM30='
 cipher = Fernet(symKey)
-
+loggedIn = 0
+idList = []
 
 app = Flask('RaspberryPi Mailbox Server')
 
@@ -22,6 +23,41 @@ input arguments below and the Flask server initialization in
 if __name__ == '__main__':, this first callback is set to be specifically
 called when a GET request is sent to the URL "http://0.0.0.0:[port]/mailbox"
 """
+
+@app.route('/log-in', methods=['POST'])
+def log_in_callback():
+    """
+    Summary: A callback which for when GET is called on [host]:[port]/mailbox
+
+    Returns:
+        string: A JSON-formatted string containing the response message
+    """
+
+    idEnc = request.get_json()
+    id = json.loads(cipher.decrypt(idEnc.get('id')))    
+    print(id)
+
+
+    # Check that the password is valid
+    if str(id) == '584183342306':
+           # Use Flask's jsonify function to format the dictionary as JSON
+        response = jsonify({'Response': 'Password does not match'})
+        
+    else:
+        response = jsonify({'Response': 'Password does not match'})
+
+    # The object returned will be sent back as an HTTP message to the requester
+    return response
+
+# TODO: Use Flash's route() decorator to add support to your HTTP server for
+# handling GET requests made to the URL '/mailbox/search'
+#
+# Use get_mailbox_callback() as an example. You'll need to use mailboxManager
+# for this request as well, so make sure to spend some time understanding how
+# it works and the features it provides.
+#
+# Your implementation should handle reasonable error cases as well, such as an
+# incorrect password.
 
 @app.route('/mailbox', methods=['GET'])
 def get_mailbox_callback():
@@ -46,7 +82,7 @@ def get_mailbox_callback():
 
 
     # Check that the password is valid
-    if password == mailbox_password:
+    if password in idList:
         # Use Flask's jsonify function to format the dictionary as JSON
         response = jsonify(mailbox_manager.get_mail())
 
@@ -83,7 +119,7 @@ def search_mailbox_callback():
     searchT = params.get('text')
 
         # Check that the password is valid
-    if password == mailbox_password:
+    if password in idList:
             # Use Flask's jsonify function to format the dictionary as JSON 
         response = jsonify({'Response': mailbox_manager.get_mail(searchF, searchT)})
 
@@ -118,7 +154,7 @@ def delete_mail_callback():
     print(payload)
 
     # Check that the password is valid
-    if payload['password'] == mailbox_password:
+    if payload['password'] in idList:
         num_deleted = mailbox_manager.delete_mail(payload['mail_ids'])
         response = jsonify({'Response': '{} emails deleted'.format(num_deleted)})
 
@@ -157,12 +193,13 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(prog='mailServer',
             description='Script to start up mail server')
 
-    parser.add_argument('-p', metavar='password', required=True,
-            help='Required password to access server')
+    
 
     args = parser.parse_args()
 
-    mailbox_password = args.p   # password
+
+
+    idList(0) = '584183342306'  # password
     mailbox_manager = mailboxManager.mailboxManager()
 
     app.run(debug=False, host='0.0.0.0', port=5000)
