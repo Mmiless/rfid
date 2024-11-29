@@ -45,7 +45,7 @@ def main():
             
 
         if command == 'add_id':
-            address = '127.0.0.1:5000'
+            address = args.a
 
             while(1):
                 try:
