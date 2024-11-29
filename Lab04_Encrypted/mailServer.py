@@ -82,16 +82,12 @@ def get_mailbox_callback():
 
 
     # Check that the password is valid
-    if password in idList:
+    if str(password) in idList:
         # Use Flask's jsonify function to format the dictionary as JSON
-        response = jsonify(mailbox_manager.get_mail())
+        response = jsonify(mailbox_manager.get_id())
 
     else:
-        if password == None:
-            response = jsonify({'Response': 'Missing password'})
-
-        else:
-            response = jsonify({'Response': 'Password does not match'})
+        response = jsonify({'Response': 'ID does not match'})
 
     # The object returned will be sent back as an HTTP message to the requester
     return response
@@ -121,7 +117,7 @@ def search_mailbox_callback():
         # Check that the password is valid
     if password in idList:
             # Use Flask's jsonify function to format the dictionary as JSON 
-        response = jsonify({'Response': mailbox_manager.get_mail(searchF, searchT)})
+        response = jsonify({'Response': mailbox_manager.get_id(searchF, searchT)})
 
     else:
         if password == None:
@@ -155,7 +151,7 @@ def delete_mail_callback():
 
     # Check that the password is valid
     if payload['password'] in idList:
-        num_deleted = mailbox_manager.delete_mail(payload['mail_ids'])
+        num_deleted = mailbox_manager.delete_id(payload['mail_ids'])
         response = jsonify({'Response': '{} emails deleted'.format(num_deleted)})
 
     else:
@@ -168,7 +164,7 @@ def delete_mail_callback():
     # The object returned will be sent back as an HTTP message to the requester
     return response
 
-@app.route('/send-mail', methods=['POST'])
+@app.route('/add-id', methods=['POST'])
 def post_mail_callback():
     """
     Summary: A callback for when POST is called on [host]:[port]/mailbox/send-mail
@@ -197,9 +193,7 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-
-
-    idList(0) = '584183342306'  # password
+    idList.append('584183342306')   # password
     mailbox_manager = mailboxManager.mailboxManager()
 
     app.run(debug=False, host='0.0.0.0', port=5000)

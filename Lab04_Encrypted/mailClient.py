@@ -4,7 +4,7 @@ from mfrc522 import SimpleMFRC522
 
 
 
-valid_commands = ['quit', 'q', 'send_mail', 'get_mail', 'search_mail', 'delete_mail', 'log_in', 'log_out', 'is_logged']
+valid_commands = ['quit', 'q', 'add_id', 'get_id', 'search_id', 'delete_id', 'log_in', 'log_out', 'is_logged']
 
 def command_is_valid(command):
     if command in valid_commands:
@@ -44,9 +44,8 @@ def main():
  
             
 
-        if command == 'send_mail':
-            address = input('Destination address: ')
-            address = address if address != '' else None
+        if command == 'add_id':
+            address = args.a
 
             subject = input('Message subject: ')
             subject = subject if subject != '' else None
@@ -55,24 +54,24 @@ def main():
             body = body if body != '' else None
 
             try:
-                mailbox_client.send_mail(address, subject, body)
+                mailbox_client.add_id(address, subject, body)
 
             except Exception as e:
                 print(e)
 
-        if command == 'get_mail':
-            mailbox_client.get_mail()
+        if command == 'get_id':
+            mailbox_client.get_id()
 
-        if command == 'search_mail':
+        if command == 'search_id':
             field = input('Search field (optional): ')
             field = field if field != '' else None
 
             text = input('Search text: ')
             text = text if text != '' else None
 
-            mailbox_client.search_mail(field, text)
+            mailbox_client.search_id(field, text)
 
-        if command == 'delete_mail':
+        if command == 'delete_id':
             print('Please enter the ids you wish to delete')
             print("Enter 'done' when complete")
             ids = []
@@ -90,7 +89,7 @@ def main():
                 except ValueError:
                     print("Please enter an integer or 'done' if complete")
 
-            mailbox_client.delete_mail(ids)
+            mailbox_client.delete_id(ids)
 
         print('')
         usr_input = ''

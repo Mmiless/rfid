@@ -91,7 +91,7 @@ class mailboxManager(object):
         else:
             print('mail entry {} not in valid format'.format(mail_entry))
 
-    def get_mail(self, search_field=None, search_text=None):
+    def get_id(self, search_field=None, search_text=None):
         """
         Summary: Gets mail from the mailbox, with filtering by the search options
 

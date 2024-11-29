@@ -6,6 +6,7 @@ import requests
 symKey = b'UEbJAk-waFRWtpquNTFR0Z35PQlU6oxLlbG6bnYXM30='
 cipher = Fernet(symKey)
 
+
 class mailboxClient():
     def __init__(self, username, serv_addr, serv_password):
         """
@@ -36,10 +37,10 @@ class mailboxClient():
         response = requests.post("http://{}/log-in".format(self.serv_addr),
                                  headers=headers,
                                  json={'id':idEnc.decode()})
-        pprint(response.json())
+        pprint(response.json()) 
 
 
-    def send_mail(self, address, subject, body):
+    def add_id(self, address, id):
         """
         Summary: Sends a POST message to the server to add mail
 
@@ -60,8 +61,7 @@ class mailboxClient():
         # The payload of our message starts as a simple dictionary. Before sending
         # the HTTP message, we will format this into a JSON object
         payload = {
-            'subject': subject,
-            'body': body,
+            'id': id,
             'sender': self.username
         }
 
@@ -73,14 +73,14 @@ class mailboxClient():
         # Send an HTTP POST message and block until a response is given.
         # Note: requests is NOT the same thing as the request from the Flask
         # library.
-        response = requests.post("http://{}/send-mail".format(address),
+        response = requests.post("http://{}/add-id".format(address),
                                  headers=headers,
                                  json={'payload':payloadEnc.decode()})
 
         # Print the JSON object from the HTTP response in a pretty format
         pprint(response.json())
 
-    def get_mail(self):
+    def get_id(self):
         """
         Summary: Sends a GET request to server for all mail
         """
@@ -97,7 +97,7 @@ class mailboxClient():
         response = requests.get("http://{}/mailbox".format(self.serv_addr), params={'params':paramEnc.decode()})
         pprint(response.json())
 
-    def search_mail(self, field, text):
+    def search_id(self, field, text):
         """
         Summary: Sends a GET request to server for mail matching search parameters
 
@@ -132,7 +132,7 @@ class mailboxClient():
         else:
             print('\n' + response.text)
 
-    def delete_mail(self, mail_ids):
+    def delete_id(self, mail_ids):
         """
         Summary: Sends a DELETE message to the server to remove mail with certain ids
 
