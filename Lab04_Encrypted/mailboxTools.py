@@ -86,7 +86,7 @@ class mailboxClient():
         """
 
         params = {
-            'password': self.serv_pw,
+            'id': self.serv_pw,
         }
 
         paramBytes = json.dumps(params).encode()
@@ -107,7 +107,7 @@ class mailboxClient():
         """
         if field != None:
             params = {
-                'password': self.serv_pw,
+                'id': self.serv_pw,
                 'field': field,
                 'text': text,
             }
@@ -118,7 +118,7 @@ class mailboxClient():
 
         else:
             params = {
-                'password': self.serv_pw,
+                'id': self.serv_pw,
                 'text': text,
             }
             paramBytes = json.dumps(params).encode()
@@ -144,7 +144,7 @@ class mailboxClient():
             'Authorization': None #not using HTTP secure
         }
         payload = {
-            'password': self.serv_pw,
+            'id': self.serv_pw,
             'mail_ids': mail_ids
         }
 

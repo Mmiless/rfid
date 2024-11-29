@@ -10,7 +10,6 @@ import mailboxManager
 symKey = b'UEbJAk-waFRWtpquNTFR0Z35PQlU6oxLlbG6bnYXM30='
 cipher = Fernet(symKey)
 loggedIn = 0
-idList = []
 
 app = Flask('RaspberryPi Mailbox Server')
 
@@ -34,12 +33,13 @@ def log_in_callback():
     """
 
     idEnc = request.get_json()
-    id = json.loads(cipher.decrypt(idEnc.get('id')))    
+    id = json.loads(cipher.decrypt(idEnc.get('rfid')))    
     print(id)
 
-
+    
+    
     # Check that the password is valid
-    if str(id) == '584183342306':
+    if str(id) in json.loads(jsonify(mailbox_manager.get_id())):
            # Use Flask's jsonify function to format the dictionary as JSON
         response = jsonify({'Response': 'Password does not match'})
         
@@ -78,11 +78,11 @@ def get_mailbox_callback():
     paramEnc = request.args.get('params')
     paramDnc = cipher.decrypt(paramEnc.encode())
     params = json.loads(paramDnc.decode())
-    password = params.get('password')
+    id = params.get('id')
 
 
     # Check that the password is valid
-    if str(password) in idList:
+    if str(id) in json.loads(jsonify(mailbox_manager.get_id())):
         # Use Flask's jsonify function to format the dictionary as JSON
         response = jsonify(mailbox_manager.get_id())
 
@@ -110,17 +110,17 @@ def search_mailbox_callback():
     params = json.loads(paramDnc.decode())
     print("Decrypted params:", params)
 
-    password = params.get('password')
+    id = params.get('id')
     searchF = params.get('field')
     searchT = params.get('text')
 
         # Check that the password is valid
-    if password in idList:
+    if str(id) in json.loads(jsonify(mailbox_manager.get_id())):
             # Use Flask's jsonify function to format the dictionary as JSON 
         response = jsonify({'Response': mailbox_manager.get_id(searchF, searchT)})
 
     else:
-        if password == None:
+        if str(id) == None:
             response = jsonify({'Response': 'Missing password'})
 
         else:
@@ -150,12 +150,12 @@ def delete_mail_callback():
     print(payload)
 
     # Check that the password is valid
-    if payload['password'] in idList:
+    if str(payload['id']) in json.loads(jsonify(mailbox_manager.get_id())):
         num_deleted = mailbox_manager.delete_id(payload['mail_ids'])
         response = jsonify({'Response': '{} emails deleted'.format(num_deleted)})
 
     else:
-        if payload['password'] == None:
+        if str(payload['id']) == None:
             response = jsonify({'Response': 'Missing password'})
 
         else:
@@ -175,8 +175,9 @@ def post_mail_callback():
 
     # Get the payload containing the sender, subject and body parameters
     payloadEnc = request.get_json()
-    payload = json.loads(cipher.decrypt(payloadEnc.get('payload')))    
+    payload = json.loads(cipher.decrypt(payloadEnc.get('payload')))
     print(payload)
+
 
     mailbox_manager.add_mail(payload)
     response = {'Response': 'Mail sent'}
@@ -193,7 +194,6 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-    idList.append('584183342306')   # password
     mailbox_manager = mailboxManager.mailboxManager()
 
     app.run(debug=False, host='0.0.0.0', port=5000)
