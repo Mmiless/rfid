@@ -28,31 +28,31 @@ class mailboxManager(object):
         except FileNotFoundError:
             pass
 
-    def _mail_format_valid(self, mail_entry):
-        """
-        Summary: Checker for if the mail contains the required fields
+    # def _mail_format_valid(self, mail_entry):
+    #     """
+    #     Summary: Checker for if the mail contains the required fields
 
-        Args:
-            mail_entry (dict): dict representing the mail that was received
+    #     Args:
+    #         mail_entry (dict): dict representing the mail that was received
 
-        Returns:
-            bool: returns True if the mail is properly formatted
-        """
+    #     Returns:
+    #         bool: returns True if the mail is properly formatted
+    #     """
 
-        if isinstance(mail_entry, dict):
-            mail_fields = mail_entry.keys()
-            if len(mail_fields) == len(MAIL_REQ_FIELDS):
-                for field in MAIL_REQ_FIELDS:
-                    if not field in mail_fields or mail_entry[field] == '':
-                        return False
+    #     if isinstance(mail_entry, dict):
+    #         mail_fields = mail_entry.keys()
+    #         if len(mail_fields) == len(MAIL_REQ_FIELDS):
+    #             for field in MAIL_REQ_FIELDS:
+    #                 if not field in mail_fields or mail_entry[field] == '':
+    #                     return False
 
-                return True
+    #             return True
 
-            else:
-                return False
+    #         else:
+    #             return False
 
-        else:
-            return False
+    #     else:
+    #         return False
 
     def _update_DB(self):
         """
@@ -73,7 +73,7 @@ class mailboxManager(object):
         """
 
         print('adding mail')
-        if self._mail_format_valid(mail_entry):
+        if 1:#self._mail_format_valid(mail_entry):
             # Generate a ID which is one greater than the last entry
             # This will ensure all IDs are unique
             if len(self.mailbox) == 0:

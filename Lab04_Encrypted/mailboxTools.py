@@ -61,7 +61,7 @@ class mailboxClient():
         # The payload of our message starts as a simple dictionary. Before sending
         # the HTTP message, we will format this into a JSON object
         payload = {
-            'id': id,
+            'rfid': id,
             'sender': self.username
         }
 
