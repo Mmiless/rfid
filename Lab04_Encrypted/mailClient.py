@@ -4,7 +4,7 @@ from mfrc522 import SimpleMFRC522
 
 
 
-valid_commands = ['quit', 'q', 'add_id', 'get_id', 'search_id', 'delete_id', 'log_in', 'log_out', 'is_logged']
+valid_commands = ['log_out', 'q', 'add_id', 'get_id', 'search_id', 'delete_id', 'log_in']
 
 def command_is_valid(command):
     if command in valid_commands:
@@ -29,7 +29,7 @@ def main():
     usr_input = ''
     command = ''
 
-    while command != 'quit' and command != 'q':
+    while command != 'q':
         while not command_is_valid(usr_input):
             usr_input = input('Command: ')
             command = usr_input
@@ -42,7 +42,9 @@ def main():
 #            except:
 #                continue
  
-            
+        if command == 'log_out':
+            break
+
 
         if command == 'add_id':
             address = args.a
@@ -94,7 +96,9 @@ def main():
 
         print('')
         usr_input = ''
-
+        print('logging out')
+        main()
+        
     return 0
 
 if __name__ == '__main__':
