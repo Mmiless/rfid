@@ -96,8 +96,8 @@ def main():
 
         print('')
         usr_input = ''
-        print('logging out')
-        main()
+    print('logging out')
+    main()
         
     return 0
 
