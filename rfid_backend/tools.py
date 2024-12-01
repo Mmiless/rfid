@@ -1,11 +1,10 @@
 from cryptography.fernet import Fernet
 import sqlite3
 
-conn = sqlite3.connect('db.sqlite3')
-c = conn.cursor()
-
-# called by server to log in (updates db)
+# called by rpi to log in 
 def login(id):
+    conn = sqlite3.connect('db.sqlite3')
+    c = conn.cursor()
     c.execute("SELECT * FROM users WHERE id = ?", (id,))
     if c.fetchone():
         c.execute("UPDATE users SET loggedIn = 1 WHERE id = ?", (id,))
@@ -16,8 +15,10 @@ def login(id):
         conn.close()
         return False
 
-# function called by web client to log out
+# called by web client to log out
 def logout(name):
+    conn = sqlite3.connect('db.sqlite3')
+    c = conn.cursor()
     c.execute("SELECT * FROM users WHERE name = ?", (name,))
     if c.fetchone():
         c.execute("UPDATE users SET loggedIn = 0 WHERE name = ?", (name,))
@@ -28,7 +29,10 @@ def logout(name):
         conn.close()
         return False
     
+# caled by web client to check if user is logged in
 def is_logged_in():
+    conn = sqlite3.connect('db.sqlite3')
+    c = conn.cursor()
     c.execute("SELECT * FROM users WHERE loggedIn = 1")
     user = c.fetchone()
     if user:
@@ -41,6 +45,8 @@ def is_logged_in():
     
 # utility function
 def addUser(id, name):
+    conn = sqlite3.connect('db.sqlite3')
+    c = conn.cursor()
     c.execute("INSERT INTO users (id, name, loggedIn) VALUES (?, ?, 0)", (id, name))
     conn.commit()
     conn.close()
@@ -48,6 +54,8 @@ def addUser(id, name):
 
 # utility function
 def deleteUser(id):
+    conn = sqlite3.connect('db.sqlite3')
+    c = conn.cursor()
     c.execute("DELETE FROM users WHERE id = ?", (id,))
     conn.commit()
     conn.close()
@@ -55,6 +63,8 @@ def deleteUser(id):
 
 # utility function
 def initTable():
+    conn = sqlite3.connect('db.sqlite3')
+    c = conn.cursor()
     # id numbers too large to be simple integers
     # booleans must to 0/1 ints in sqlite
     c.execute("CREATE TABLE users (id text, name text, loggedIn integer)")
@@ -64,6 +74,5 @@ def initTable():
     
 # code to allow us to manually execute database commands
 if __name__ == '__main__':
-    #login("243532354")
-    print(is_logged_in())
+    login("10")
 

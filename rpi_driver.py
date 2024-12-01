@@ -7,8 +7,8 @@ import requests
 symKey = b'UEbJAk-waFRWtpquNTFR0Z35PQlU6oxLlbG6bnYXM30='
 cipher = Fernet(symKey)
 
-port = 3000
-host = "0.0.0"
+port = 3001
+host = "127.0.0.1"
 
 def sendRequest(idEnc):
 	idBytes = json.dumps(id).encode()

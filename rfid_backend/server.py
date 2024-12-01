@@ -1,6 +1,7 @@
 from flask import Flask
 from flask import jsonify
 from flask import request
+from flask_cors import CORS
 from cryptography.fernet import Fernet
 import json
 
@@ -10,6 +11,7 @@ symKey = b'UEbJAk-waFRWtpquNTFR0Z35PQlU6oxLlbG6bnYXM30='
 cipher = Fernet(symKey)
 
 app = Flask('RFID Management Server')
+CORS(app, origins="http://localhost:3000")
 
 @app.route('/log-in', methods=['POST'])
 def log_in_callback():
@@ -33,4 +35,4 @@ def is_logged_in_callback():
     return jsonify({'isLoggedIn': isLoggedIn, 'name': name})
 
 if __name__ == '__main__':
-    app.run(host='0.0.0', port=3000)
+    app.run(host='127.0.0.1', port=3001)

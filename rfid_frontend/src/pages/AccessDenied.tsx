@@ -8,35 +8,30 @@ const AccessDenied = () => {
     // Continuously poll the server to check if the user is logged in
     useEffect(() => {
         const poll = async () => {
-            let running: boolean = true;
-
-            while(running){
-                try {
-                    const response = await fetch('http://localhost:3000/api/isLoggedIn', {
-                        method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                            },
-                    });
-                    if(response.ok) {
-                        const data = await response.json();
-                        if(data.loggedIn === 1) {
-                            running = false;
-                            const uName: string = data.username;
-                            localStorage.setItem('username', uName);
-                            navigate('/Dashboard');
-                        }
-                        else continue;
+            try {
+                const response = await fetch('http://localhost:3001/is-logged-in', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+                if(response.ok) {
+                    const data = await response.json();
+                    if(data.isLoggedIn === 1) {
+                        const uName: string = data.name;
+                        localStorage.setItem('username', uName);
+                        navigate('/Dashboard');
+                        return
                     }
-                } catch (error){
-                    console.log(error.message);
                 }
-                // 2 second delay to avoid request spam
-                await new Promise((resolve) => setTimeout(resolve, 2000))
-            }  
+            } catch (error){
+                console.log(error.message);
+            }
+            // 2 second delay to avoid request spam
+            setTimeout(poll, 2000);
         };
 
-        poll();
+        setTimeout(poll, 2000);
 
     }, [navigate]);
 
