@@ -11,7 +11,6 @@ symKey = b'UEbJAk-waFRWtpquNTFR0Z35PQlU6oxLlbG6bnYXM30='
 cipher = Fernet(symKey)
 
 app = Flask('RFID Management Server')
-# 172.20.10.4
 CORS(app, origins="http://localhost:3000")
 
 @app.route('/log-in', methods=['POST'])

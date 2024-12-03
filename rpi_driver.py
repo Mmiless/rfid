@@ -18,8 +18,9 @@ def sendRequest(idEnc):
 	# send request to server to login
 	response = requests.post("http://172.20.10.3:3001/log-in", headers=headers, json={'id':idEnc.decode()})
 	pprint(response.json()) 
+	main()
 
-if __name__ == "__main__":
+def main():
 	mrfc = SimpleMFRC522()
 
 	while (1):
@@ -35,4 +36,8 @@ if __name__ == "__main__":
 
 		except:
 			continue
+
+
+if __name__ == "__main__":
+	main()
 

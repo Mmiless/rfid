@@ -28,10 +28,10 @@ const AccessDenied = () => {
                 console.log(error.message);
             }
             // 2 second delay to avoid request spam
-            setTimeout(poll, 2000);
+            setTimeout(poll, 200);
         };
 
-        setTimeout(poll, 2000);
+        setTimeout(poll, 200);
 
     }, [navigate]);
 
