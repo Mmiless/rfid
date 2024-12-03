@@ -5,7 +5,6 @@ import { Bar } from 'react-chartjs-2';
 import {Chart as ChartJS, CategoryScale,  LinearScale, BarElement, Title, Tooltip, Legend,} from 'chart.js';
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-
 async function fetchDates() {
     try {
         const response = await fetch('https://api.nasa.gov/DONKI/FLR?startDate=yyyy-MM-dd&endDate=yyyy-MM-dd&api_key=ie1u4oQ3dmPsFT8RbgQIXwbSpo0pg8d733WuRss3');
@@ -63,7 +62,6 @@ const Dashboard = () => {
             },
         },
     };
-
 
     return (
         <div>
