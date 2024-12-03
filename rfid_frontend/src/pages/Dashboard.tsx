@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import Header from '../hooks/Header.tsx'
 import { Bar } from 'react-chartjs-2';
+// big import statement for chart.js
 import {Chart as ChartJS, CategoryScale,  LinearScale, BarElement, Title, Tooltip, Legend,} from 'chart.js';
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 

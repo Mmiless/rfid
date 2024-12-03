@@ -74,5 +74,6 @@ def initTable():
     
 # code to allow us to manually execute database commands
 if __name__ == '__main__':
-    login("10")
-
+    deleteUser("243532354")
+    addUser("584190492038", "Miles")
+    addUser("584183342306", "Will")

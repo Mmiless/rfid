@@ -7,9 +7,6 @@ import requests
 symKey = b'UEbJAk-waFRWtpquNTFR0Z35PQlU6oxLlbG6bnYXM30='
 cipher = Fernet(symKey)
 
-port = 3001
-host = "127.0.0.1"
-
 def sendRequest(idEnc):
 
 	print("sending")
@@ -19,7 +16,7 @@ def sendRequest(idEnc):
 	}
 
 	# send request to server to login
-	response = requests.post("http://localhost:3001/log-in", headers=headers, json={'id':idEnc.decode()})
+	response = requests.post("http://0.0.0.0:3001/log-in", headers=headers, json={'id':idEnc.decode()})
 	pprint(response.json()) 
 
 if __name__ == "__main__":

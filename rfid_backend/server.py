@@ -11,6 +11,7 @@ symKey = b'UEbJAk-waFRWtpquNTFR0Z35PQlU6oxLlbG6bnYXM30='
 cipher = Fernet(symKey)
 
 app = Flask('RFID Management Server')
+# 172.20.10.4
 CORS(app, origins="http://localhost:3000")
 
 @app.route('/log-in', methods=['POST'])
@@ -35,4 +36,4 @@ def is_logged_in_callback():
     return jsonify({'isLoggedIn': isLoggedIn, 'name': name})
 
 if __name__ == '__main__':
-    app.run(host='127.0.0.1', port=3001)
+    app.run(host='0.0.0.0', port=3001)

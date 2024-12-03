@@ -9,7 +9,7 @@ const AccessDenied = () => {
     useEffect(() => {
         const poll = async () => {
             try {
-                const response = await fetch('http://localhost:3001/is-logged-in', {
+                const response = await fetch('http://0.0.0.0:3001/is-logged-in', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
