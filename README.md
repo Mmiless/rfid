@@ -91,7 +91,7 @@ Run script:
 
 ### Backend:
 
-    Database framework
+    Database engine
     - Sqlite3
 
     Python libraries
