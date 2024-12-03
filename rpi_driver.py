@@ -11,8 +11,6 @@ port = 3001
 host = "127.0.0.1"
 
 def sendRequest(idEnc):
-	idBytes = json.dumps(id).encode()
-	idEnc = cipher.encrypt(idBytes)
 
 	print("sending")
 	headers = {
