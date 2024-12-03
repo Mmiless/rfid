@@ -66,37 +66,37 @@ Run script:
 
 ## List of all libraries/frameworks
 
-Rpi:
+### Rpi:
 
-Python libraries
-- mfrc522
-- cryptography
-- json
-- requests
-- pprint
-
-
-Frontend:
-
-Frameworks
-- Node.js
-- React.js
-- Tailwind.css
-
-Npm packages
-- chart.js
-- react-chartjs-2
-- react-router-dom
+    Python libraries
+    - mfrc522
+    - cryptography
+    - json
+    - requests
+    - pprint
 
 
-Backend:
+### Frontend:
 
-Database framework
-- Sqlite3
+    Frameworks
+    - Node.js
+    - React.js
+    - Tailwind.css
 
-Python libraries
-- flask
-- flask_cors
-- cryptography
-- requests
+    Npm packages
+    - chart.js
+    - react-chartjs-2
+    - react-router-dom
+
+
+### Backend:
+
+    Database framework
+    - Sqlite3
+
+    Python libraries
+    - flask
+    - flask_cors
+    - cryptography
+    - requests
 
