@@ -4,9 +4,11 @@ Team Members: Miles Kirkbride, Will Bradley
 
 ## 1. Start frontend
 
-Install node/npm
+Install node/npm:
+
 https://nodejs.org/en/download/package-manager
 
+Install dependencies:
 
 ```bash
 'npm install'
@@ -14,13 +16,15 @@ https://nodejs.org/en/download/package-manager
 
 Reconfigure IP addresses as needed. 
 
+Serve webpage:
+
 ```bash
 'npm start'
 ```
 
 ## 2. Start backend server
 
-Install dependencies into a venv
+Install dependencies into a venv:
 
 ```bash
 'pip3 install flask' 
@@ -32,7 +36,8 @@ Install dependencies into a venv
 ```
 
 Reconfigure IP addresses as needed. 
-Start server
+
+Start server:
 
 ```bash
 'python3 server.py'
@@ -41,7 +46,7 @@ Start server
 
 ## 3. Run rpi driver script
 
-Install dependencies into a venv
+Install dependencies into a venv:
 
 ```bash
 'pip3 install mfrc522'
@@ -52,7 +57,8 @@ Install dependencies into a venv
 ```
 
 Reconfigure IP addresses as needed. 
-Run script
+
+Run script:
 
 ```bash
 'python3 rpi_driver.py'
