@@ -14,13 +14,14 @@ def sendRequest(idEnc):
 	idBytes = json.dumps(id).encode()
 	idEnc = cipher.encrypt(idBytes)
 
+	print("sending")
 	headers = {
 		'Content-Type': 'application/json',
 		'Authorization': None   # not using HTTP secure
 	}
 
 	# send request to server to login
-	response = requests.post("http://{host}:{port}/log-in".format(host=host, port=port),
+	response = requests.post("http://127.0.0.1:3001/log-in".format(host=host, port=port),
 								headers=headers,
 								json={'id':idEnc.decode()})
 	pprint(response.json()) 
