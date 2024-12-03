@@ -21,11 +21,8 @@ def sendRequest(idEnc):
 	}
 
 	# send request to server to login
-	response = requests.post("http://127.0.0.1:3001/log-in".format(host=host, port=port),
-								headers=headers,
-								json={'id':idEnc.decode()})
+	response = requests.post("http://localhost:3001/log-in", headers=headers, json={'id':idEnc.decode()})
 	pprint(response.json()) 
-
 
 if __name__ == "__main__":
 	mrfc = SimpleMFRC522()
@@ -39,6 +36,7 @@ if __name__ == "__main__":
 			idEnc = cipher.encrypt(idBytes)
 			print(idEnc)
 			sendRequest(idEnc)
+			break
 
 		except:
 			continue
